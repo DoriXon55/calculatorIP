@@ -1,81 +1,62 @@
+import java.lang.String;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 public class ipCalculator {
+    public ipCalculator(String IP, int amountOfSubnet) {
+        String[] octets = IP.split("\\.");
+        int firstOctet;
 
-    private static String startIP;
-    private static String endIP;
-    public ipCalculator(int amountOfSubnet, String classChoice)
-    {
-        switch (classChoice) {
-            case "A":
-                classA(amountOfSubnet);
-                break;
-            case "B":
-                classB(amountOfSubnet);
-                break;
-            case "C":
-                classC(amountOfSubnet);
-                break;
-            case "D":
-                classD(amountOfSubnet);
-                break;
-            case "E":
-                classE(amountOfSubnet);
-                break;
-            default:
-                System.out.println("Wrong class choice! Try again.");
+        if (octets.length != 4 && !octets[3].equals("0")) {
+            System.out.println("Podano nieprawidłowy adres IP!");
+            return;
         }
+        firstOctet = Integer.parseInt(octets[0]);
+
+            if (firstOctet >= 1 && firstOctet <= 126) {
+                System.out.println("Klasa A");
+            } else if (firstOctet >= 128 && firstOctet <= 191) {
+                System.out.println("Klasa B");
+            } else if (firstOctet >= 192 && firstOctet <= 223) {
+                System.out.println("Klasa C");
+            } else if (firstOctet >= 224 && firstOctet <= 239) {
+                System.out.println("Klasa D");
+            } else if (firstOctet >= 240 && firstOctet <= 255) {
+                System.out.println("Klasa E");
+            }
+            subnetDivine(octets, amountOfSubnet);
+
+
     }
 
-    public static String getStartIP() {
-        return startIP;
-    }
+    public void subnetDivine(String[] octets, int amountOfSubnet) {
+        try {
+            FileWriter fileWriter = new FileWriter("PodziałSieci.txt");
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            int count = 0;
+            int range = 256 / amountOfSubnet;
+            int firstOctet = Integer.parseInt(octets[0]);
+            int secondOctet = Integer.parseInt(octets[1]);
+            int thirdOctet = Integer.parseInt(octets[2]);
+            int fourthOctet;
 
-    public static void setStartIP(String startIP) {
-        ipCalculator.startIP = startIP;
-    }
-
-    public static String getEndIP() {
-        return endIP;
-    }
-
-    public static void setEndIP(String endIP) {
-        ipCalculator.endIP = endIP;
-    }
-
-    public void classA(int amountOfSubnet)
-    {
-        String resultIP;
-        int i = 0;
-        setStartIP("1.0.0.1");
-        setEndIP("127.255.255.254");
-
-        while(i < amountOfSubnet)
-        {
-            System.out.println("Working");
-            i++;
+            for (int i = 0; i < amountOfSubnet; i++) {
+                fourthOctet = 0;
+                bufferedWriter.write(STR."Podsieć \{i + 1}: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet} \n");
+                fourthOctet = 1;
+                bufferedWriter.write(STR."Pierwszy użyteczny adres: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet} \n");
+                fourthOctet = 254;
+                bufferedWriter.write(STR."Ostatni użyteczny adres: \{firstOctet}.\{secondOctet}.\{thirdOctet + range - 1}.\{fourthOctet} \n");
+                fourthOctet = 255;
+                bufferedWriter.write(STR."Adres rozgłoszeniowy: \{firstOctet}.\{secondOctet}.\{thirdOctet + range - 1}.\{fourthOctet} \n");
+                bufferedWriter.write("\n");
+                count += range;
+                thirdOctet += range;
+            }
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    }
-    public void classB(int amountOfSubnet)
-    {
-        setStartIP("128.0.0.0");
-        setEndIP("191.255.255.255");
-        System.out.println("Working");
-    }
-    public void classC(int amountOfSubnet)
-    {
-        setStartIP("192.0.0.0");
-        setEndIP("223.255.255.255");
-        System.out.println("Working");
-    }
-    public void classD(int amountOfSubnet)
-    {
-        setStartIP("224.0.0.0");
-        setEndIP("239.255.255.254");
-        System.out.println("Working");
-    }
-    public void classE(int amountOfSubnet)
-    {
-        setStartIP("240.0.0.0");
-        setEndIP("255.255.255.255");
-        System.out.println("Working");
     }
 }
+

@@ -1,34 +1,18 @@
 import java.util.Scanner;
-
-public class Main implements Runnable{
-    private static String classChoice;
-    private static int amountOfSubnet;
+public class Main{
 
     public static void main(String[] args) {
+
         Scanner scanner = new Scanner(System.in);
-        System.out.println("IP Calculator, please enter amount of subnet that you want: ");
-        amountOfSubnet = scanner.nextInt();
-        scanner.nextLine(); // scanner gets /n from previous line, so it must be there
-        System.out.println(STR."Declared number of subnet: \{amountOfSubnet}");
+        System.out.println("Wpisz IP sieci, którą chcesz podzielić: ");
+        String userNet = scanner.nextLine();
+        System.out.println(STR."Wpisane IP sieci: \{userNet}");
 
-        System.out.println("Now, please choice class of the net: (A-E)");
-        classChoice = scanner.nextLine();
-        System.out.println(STR."Declared net class: \{classChoice}");
+        System.out.println("Teraz podaj na ile podsieci chcesz podzielić sieć: ");
+        int amountOfSubnet = scanner.nextInt();
+        System.out.println(STR."Sieć zostanie podzielona na \{amountOfSubnet} podsieci.");
+
+        new ipCalculator(userNet, amountOfSubnet);
     }
 
-    public static int getAmountOfSubnet() {
-        return amountOfSubnet;
-    }
-
-    public static String getClassChoice() {
-        return classChoice;
-    }
-
-    ipCalculator ipCalculatorResult = new ipCalculator(getAmountOfSubnet(), getClassChoice());
-
-
-    @Override
-    public void run() {
-
-    }
 }
