@@ -1,8 +1,8 @@
 import java.io.*;
 import java.lang.String;
 
-public class ipCalculator {
-    public ipCalculator(String IP, int amountOfSubnet) {
+public class ipCalculatorStatic {
+    public ipCalculatorStatic(String IP, int amountOfSubnet) {
         String[] octets = IP.split("\\.");
         int firstOctet;
 

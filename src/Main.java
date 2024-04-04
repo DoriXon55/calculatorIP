@@ -3,6 +3,7 @@ public class Main{
 
     public static void main(String[] args) {
 
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("Wpisz IP sieci, którą chcesz podzielić: ");
         String userNet = scanner.nextLine();
@@ -12,7 +13,18 @@ public class Main{
         int amountOfSubnet = scanner.nextInt();
         System.out.println(STR."Sieć zostanie podzielona na \{amountOfSubnet} podsieci.");
 
-        new ipCalculator(userNet, amountOfSubnet);
+        System.out.println("Wybierz metodę podziału: \n 1. VLSM \n 2.Static");
+        int userOption = scanner.nextInt();
+
+        switch (userOption){
+            case 1:
+                break;
+            case 2:
+                new ipCalculatorStatic(userNet, amountOfSubnet);
+                break;
+        }
+
+
     }
 
 }
