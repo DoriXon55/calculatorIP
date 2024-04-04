@@ -5,26 +5,35 @@ public class Main{
 
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Wpisz IP sieci, którą chcesz podzielić: ");
+        System.out.println("Give IP to divine: ");
         String userNet = scanner.nextLine();
-        System.out.println(STR."Wpisane IP sieci: \{userNet}");
+        System.out.println(STR."IP: \{userNet}");
 
-        System.out.println("Teraz podaj na ile podsieci chcesz podzielić sieć: ");
+        System.out.println("Give how many subnets do you want: ");
         int amountOfSubnet = scanner.nextInt();
-        System.out.println(STR."Sieć zostanie podzielona na \{amountOfSubnet} podsieci.");
+        System.out.println(STR."Subnets to check: \{amountOfSubnet}");
 
-        System.out.println("Wybierz metodę podziału: \n 1. VLSM \n 2.Static");
+        System.out.println("Choose division method: \n 1. VLSM \n 2. Static");
         int userOption = scanner.nextInt();
 
         switch (userOption){
             case 1:
+                new ipCalculatorVLSM(userNet, amountOfSubnet);
                 break;
             case 2:
                 new ipCalculatorStatic(userNet, amountOfSubnet);
                 break;
+            default:
+                System.out.println("Wrong option! Try again :)");
+                break;
         }
+        clearTerminal();
+    }
 
-
+    public static void clearTerminal()
+    {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
 }
