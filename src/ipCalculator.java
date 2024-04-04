@@ -1,7 +1,6 @@
+import java.io.*;
 import java.lang.String;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+
 public class ipCalculator {
     public ipCalculator(String IP, int amountOfSubnet) {
         String[] octets = IP.split("\\.");
@@ -31,6 +30,7 @@ public class ipCalculator {
 
     public void subnetDivine(String[] octets, int amountOfSubnet) {
         try {
+            cleanFile();
             FileWriter fileWriter = new FileWriter("PodziałSieci.txt");
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             int count = 0;
@@ -58,5 +58,12 @@ public class ipCalculator {
             e.printStackTrace();
         }
     }
+    public static void cleanFile() throws FileNotFoundException
+    {
+        PrintWriter writerNames = new PrintWriter("PodziałSieci.txt");
+        writerNames.print("");
+        writerNames.close();
+    }
+
 }
 
