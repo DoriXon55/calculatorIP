@@ -9,6 +9,8 @@ public class Main{
         String userNet = scanner.nextLine();
         System.out.println(STR."IP: \{userNet}");
 
+
+
         System.out.println("Give how many subnets do you want: ");
         int amountOfSubnet = scanner.nextInt();
         System.out.println(STR."Subnets to check: \{amountOfSubnet}");
@@ -18,7 +20,10 @@ public class Main{
 
         switch (userOption){
             case 1:
-                new ipCalculatorVLSM(userNet, amountOfSubnet);
+                System.out.println("Give mask: ");
+                String userMask = scanner.nextLine();
+                System.out.println(STR."Mask: \{userMask}");
+                new ipCalculatorVLSM(userNet, amountOfSubnet, userMask);
                 break;
             case 2:
                 new ipCalculatorStatic(userNet, amountOfSubnet);
