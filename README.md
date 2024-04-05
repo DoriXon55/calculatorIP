@@ -5,7 +5,7 @@
 ## General info
 This "project" is for Computer Networks.
 It divides a given network into subnets, making calculations easier.
-
+! VLSM doesn't work for now
 ## Setup
 
 ### ipCalculatorStatic
