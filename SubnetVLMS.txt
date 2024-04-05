@@ -1,0 +1,64 @@
+Subnet 1: 172.16.0.0
+Capacity: 126
+Mask: 255.255.255.128
+First useful address: 172.16.0.0
+Last useful address: 172.16.31.0
+Broadcast address: 172.16.31.0
+Net mask: 172.16.31.0
+
+Subnet 2: 172.16.0.0
+Capacity: 62
+Mask: 255.255.255.192
+First useful address: 172.16.0.0
+Last useful address: 172.16.31.0
+Broadcast address: 172.16.31.0
+Net mask: 172.16.31.0
+
+Subnet 3: 172.16.0.0
+Capacity: 62
+Mask: 255.255.255.192
+First useful address: 172.16.0.0
+Last useful address: 172.16.31.0
+Broadcast address: 172.16.31.0
+Net mask: 172.16.31.0
+
+Subnet 4: 172.16.0.0
+Capacity: 14
+Mask: 255.255.255.240
+First useful address: 172.16.0.0
+Last useful address: 172.16.31.0
+Broadcast address: 172.16.31.0
+Net mask: 172.16.31.0
+
+Subnet 5: 172.16.0.0
+Capacity: 14
+Mask: 255.255.255.240
+First useful address: 172.16.0.0
+Last useful address: 172.16.31.0
+Broadcast address: 172.16.31.0
+Net mask: 172.16.31.0
+
+Subnet 6: 172.16.0.0
+Capacity: 6
+Mask: 255.255.255.248
+First useful address: 172.16.0.0
+Last useful address: 172.16.31.0
+Broadcast address: 172.16.31.0
+Net mask: 172.16.31.0
+
+Subnet 7: 172.16.0.0
+Capacity: 2
+Mask: 255.255.255.252
+First useful address: 172.16.0.0
+Last useful address: 172.16.31.0
+Broadcast address: 172.16.31.0
+Net mask: 172.16.31.0
+
+Subnet 8: 172.16.0.0
+Capacity: 2
+Mask: 255.255.255.252
+First useful address: 172.16.0.0
+Last useful address: 172.16.31.0
+Broadcast address: 172.16.31.0
+Net mask: 172.16.31.0
+

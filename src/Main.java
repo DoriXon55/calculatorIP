@@ -20,16 +20,14 @@ public class Main{
 
         switch (userOption){
             case 1:
-                System.out.println("Give mask: ");
-                String userMask = scanner.nextLine();
-                System.out.println(STR."Mask: \{userMask}");
-                new ipCalculatorVLSM(userNet, amountOfSubnet, userMask);
+                new ipCalculatorVLSM(userNet, amountOfSubnet);
                 break;
             case 2:
                 new ipCalculatorStatic(userNet, amountOfSubnet);
                 break;
             default:
                 System.out.println("Wrong option! Try again :)");
+                System.out.println("Choose division method: \n 1. VLSM \n 2. Static");
                 break;
         }
         clearTerminal();
