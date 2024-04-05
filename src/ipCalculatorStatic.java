@@ -41,7 +41,7 @@ public class ipCalculatorStatic {
 
             for (int i = 0; i < amountOfSubnet; i++) {
                 fourthOctet = 0;
-                bufferedWriter.write(STR."Subnet \{i + 1}: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet} \n");
+                bufferedWriter.write(STR."LAN \{i + 1}: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet} \n");
                 fourthOctet = 1;
                 bufferedWriter.write(STR."First useful address: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet} \n");
                 fourthOctet = 254;
