@@ -1,15 +1,12 @@
 import java.io.*;
-import java.lang.String;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class ipCalculatorVLSM {
-
-    private  List<String> prefixes = new ArrayList<>();
-    private  List<String> masks = new ArrayList<>();
-    private  List<String> capacities = new ArrayList<>();
-
+    private final List<String> prefixes = new ArrayList<>();
+    private final List<String> masks = new ArrayList<>();
+    private final List<String> capacities = new ArrayList<>();
 
     public ipCalculatorVLSM(String IP, int amountOfSubnet) {
 
@@ -43,33 +40,37 @@ public class ipCalculatorVLSM {
             cleanFile();
             FileWriter fileWriter = new FileWriter("SubnetVLMS.txt");
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            int range = 256 / amountOfSubnet;
             int firstOctet = Integer.parseInt(octets[0]);
             int secondOctet = Integer.parseInt(octets[1]);
-            int thirdOctet = 0, fourthOctet = 0;
-
+            int thirdOctet = Integer.parseInt(octets[2]);
+            int fourthOctet = Integer.parseInt(octets[3]);
 
             for (int i = 0; i < amountOfSubnet; i++) {
-                int tempCheck2 = Integer.parseInt(octets[2]);
-                int tempCheck3 = Integer.parseInt(octets[3]);
-                if (tempCheck3 > 255) {
-                    octets[2] = Integer.toString(tempCheck2 + 1);
-                    octets[3] = "0";
+                int bits = (int) Math.ceil(Math.log(subnetHosts[i]) / Math.log(2));
+                int mask = 32 - bits;
+
+                int broadcastFourthOctet = fourthOctet + (int) Math.pow(2, bits) - 1;
+                int endRangeFourthOctet = fourthOctet + (int) Math.pow(2, bits) - 2;
+
+                if (broadcastFourthOctet > 255) {
+                    thirdOctet++;
+                    broadcastFourthOctet -= 256;
                 }
 
-                int closestCapacityIndex = findClosestCapacity(subnetHosts[i]);
+                if (endRangeFourthOctet > 255) {
+                    thirdOctet++;
+                    endRangeFourthOctet -= 256;
+                }
 
-                if (closestCapacityIndex != -1) {
-                    String capacity = capacities.get(closestCapacityIndex);
-                    String mask = masks.get(closestCapacityIndex);
-                    bufferedWriter.write("Subnet " + (i + 1) + ": " + firstOctet + "." + secondOctet + "." + thirdOctet + "." + fourthOctet + "\n");
-                    bufferedWriter.write("Capacity: " + capacity + "\n");
-                    bufferedWriter.write("Mask: " + mask + "\n");
-                    bufferedWriter.write("First useful address: " + firstOctet + "." + secondOctet + "." + thirdOctet + "." + fourthOctet + "\n");
-                    bufferedWriter.write("Last useful address: " + firstOctet + "." + secondOctet + "." + (thirdOctet + range - 1) + "." + fourthOctet + "\n");
-                    bufferedWriter.write("Broadcast address: " + firstOctet + "." + secondOctet + "." + (thirdOctet + range - 1) + "." + fourthOctet + "\n");
-                    bufferedWriter.write("Net mask: " + firstOctet + "." + secondOctet + "." + (thirdOctet + range - 1) + "." + fourthOctet + "\n");
-                    bufferedWriter.write("\n");
+                bufferedWriter.write(STR."LAN \{i + 1}: \{subnetHosts[i]} hostów\n");
+                bufferedWriter.write(STR."Adres sieci: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet}/\{mask}\n");
+                bufferedWriter.write(STR."Zakres adresów: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet + 1} - \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{endRangeFourthOctet}\n");
+                bufferedWriter.write(STR."Adres rozgłoszeniowy: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{broadcastFourthOctet}\n\n");
+
+                fourthOctet += (int) Math.pow(2, bits);
+                if (fourthOctet > 255) {
+                    thirdOctet++;
+                    fourthOctet -= 256;
                 }
             }
             bufferedWriter.close();
@@ -136,8 +137,8 @@ public class ipCalculatorVLSM {
         }
         return closestIndex;
     }
-    public void cleanFile() throws FileNotFoundException
-    {
+
+    public void cleanFile() throws FileNotFoundException {
         PrintWriter writerNames = new PrintWriter("Subnet.txt");
         writerNames.print("");
         writerNames.close();

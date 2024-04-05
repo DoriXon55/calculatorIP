@@ -12,18 +12,18 @@ public class ipCalculatorStatic {
         }
         firstOctet = Integer.parseInt(octets[0]);
 
-            if (firstOctet >= 1 && firstOctet <= 126) {
-                System.out.println("Class A");
-            } else if (firstOctet >= 128 && firstOctet <= 191) {
-                System.out.println("Class B");
-            } else if (firstOctet >= 192 && firstOctet <= 223) {
-                System.out.println("Class C");
-            } else if (firstOctet >= 224 && firstOctet <= 239) {
-                System.out.println("Class D");
-            } else if (firstOctet >= 240 && firstOctet <= 255) {
-                System.out.println("Class E");
-            }
-            subnetDivine(octets, amountOfSubnet);
+        if (firstOctet >= 1 && firstOctet <= 126) {
+            System.out.println("Class A");
+        } else if (firstOctet >= 128 && firstOctet <= 191) {
+            System.out.println("Class B");
+        } else if (firstOctet >= 192 && firstOctet <= 223) {
+            System.out.println("Class C");
+        } else if (firstOctet >= 224 && firstOctet <= 239) {
+            System.out.println("Class D");
+        } else if (firstOctet >= 240 && firstOctet <= 255) {
+            System.out.println("Class E");
+        }
+        subnetDivine(octets, amountOfSubnet);
 
 
     }
@@ -56,8 +56,8 @@ public class ipCalculatorStatic {
             e.printStackTrace();
         }
     }
-    public static void cleanFile() throws FileNotFoundException
-    {
+
+    public static void cleanFile() throws FileNotFoundException {
         PrintWriter writerNames = new PrintWriter("Subnet.txt");
         writerNames.print("");
         writerNames.close();

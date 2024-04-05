@@ -1,5 +1,6 @@
 import java.util.Scanner;
-public class Main{
+
+public class Main {
 
     public static void main(String[] args) {
 
@@ -10,7 +11,6 @@ public class Main{
         System.out.println(STR."IP: \{userNet}");
 
 
-
         System.out.println("Give how many subnets do you want: ");
         int amountOfSubnet = scanner.nextInt();
         System.out.println(STR."Subnets to check: \{amountOfSubnet}");
@@ -18,7 +18,7 @@ public class Main{
         System.out.println("Choose division method: \n 1. VLSM \n 2. Static");
         int userOption = scanner.nextInt();
 
-        switch (userOption){
+        switch (userOption) {
             case 1:
                 new ipCalculatorVLSM(userNet, amountOfSubnet);
                 break;
@@ -33,8 +33,7 @@ public class Main{
         clearTerminal();
     }
 
-    public static void clearTerminal()
-    {
+    public static void clearTerminal() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
