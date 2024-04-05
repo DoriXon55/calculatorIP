@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ipCalculatorVLSM {
-    private final List<String> prefixes = new ArrayList<>();
-    private final List<String> masks = new ArrayList<>();
-    private final List<String> capacities = new ArrayList<>();
+    private List<String> prefixes = new ArrayList<>();
+    private List<String> masks = new ArrayList<>();
+    private List<String> capacities = new ArrayList<>();
 
     public ipCalculatorVLSM(String IP, int amountOfSubnet) {
 
@@ -46,11 +46,11 @@ public class ipCalculatorVLSM {
             int fourthOctet = Integer.parseInt(octets[3]);
 
             for (int i = 0; i < amountOfSubnet; i++) {
-                int bits = (int) Math.ceil(Math.log(subnetHosts[i]) / Math.log(2));
+                int bits = (int) Math.ceil(Math.log(subnetHosts[i] + 2) / Math.log(2)); // Add 2 for network and broadcast addresses
                 int mask = 32 - bits;
 
                 int broadcastFourthOctet = fourthOctet + (int) Math.pow(2, bits) - 1;
-                int endRangeFourthOctet = fourthOctet + (int) Math.pow(2, bits) - 2;
+                int endRangeFourthOctet = broadcastFourthOctet - 1;
 
                 if (broadcastFourthOctet > 255) {
                     thirdOctet++;
@@ -62,12 +62,12 @@ public class ipCalculatorVLSM {
                     endRangeFourthOctet -= 256;
                 }
 
-                bufferedWriter.write(STR."LAN \{i + 1}: \{subnetHosts[i]} hostów\n");
-                bufferedWriter.write(STR."Adres sieci: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet}/\{mask}\n");
-                bufferedWriter.write(STR."Zakres adresów: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet + 1} - \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{endRangeFourthOctet}\n");
-                bufferedWriter.write(STR."Adres rozgłoszeniowy: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{broadcastFourthOctet}\n\n");
+                bufferedWriter.write("Podsieć " + (i + 1) + ": " + firstOctet + "." + secondOctet + "." + thirdOctet + "." + fourthOctet + " -> dla " + subnetHosts[i] + " hostów\n");
+                bufferedWriter.write("Pierwszy użyteczny adres: " + firstOctet + "." + secondOctet + "." + thirdOctet + "." + (fourthOctet + 1) + "\n");
+                bufferedWriter.write("Ostatni użyteczny adres: " + firstOctet + "." + secondOctet + "." + thirdOctet + "." + endRangeFourthOctet + "\n");
+                bufferedWriter.write("Adres rozgłoszeniowy: " + firstOctet + "." + secondOctet + "." + thirdOctet + "." + broadcastFourthOctet + "\n\n");
 
-                fourthOctet += (int) Math.pow(2, bits);
+                fourthOctet += Math.pow(2, bits);
                 if (fourthOctet > 255) {
                     thirdOctet++;
                     fourthOctet -= 256;
@@ -78,6 +78,8 @@ public class ipCalculatorVLSM {
             e.printStackTrace();
         }
     }
+
+
 
 
     public void sortArrayDescending(int[] sortedArray) {
