@@ -133,7 +133,6 @@ In this function I use list, because this is easier to change ealier. You can pu
         }
     }
 ```
-
 - Five -> findClosestCapacity -> finds closest capacity for LAN
 ``` java
     private int findClosestCapacity(int subnetHosts) {
@@ -238,8 +237,6 @@ First useful address: 172.16.224.1
 Last useful address: 172.16.255.254 
 Broadcast address: 172.16.255.255 
 ```
-
-As you can see, I have range of diffrent classes and I check it with if statements.
 
 For now. That's all
   
