@@ -5,7 +5,7 @@
 ## General info
 This "project" is for Computer Networks.
 It divides a given network into subnets, making calculations easier.
-! VLSM doesn't work for now
+
 ## Setup
 
 ### ipCalculatorStatic
@@ -20,8 +20,7 @@ You can change "PodzialSieci.txt" for everything you want and can.
 
 - One of the function in this part is cleanFile. Idk if this work, because I read that on IDE this doesn't work, so I must check this on diffrent time.
 ``` java
-    public static void cleanFile() throws FileNotFoundException
-    {
+    public void cleanFile() throws FileNotFoundException {
         PrintWriter writerNames = new PrintWriter("Subnet.txt");
         writerNames.print("");
         writerNames.close();
@@ -36,7 +35,7 @@ This part of code handle the VLSM divine method. You can find there constructor 
 Under the constructor you find a three functions. 
 - First -> calculateVSLM -> there are all of calculating process and file overwriting.
 ``` java
- public void calculateVSLM(String[] octets, int[] subnetHosts, int amountOfSubnet) {
+    public void calculateVSLM(String[] octets, int[] subnetHosts, int amountOfSubnet) {
         try {
             cleanFile();
             FileWriter fileWriter = new FileWriter("SubnetVLMS.txt");
@@ -47,11 +46,11 @@ Under the constructor you find a three functions.
             int fourthOctet = Integer.parseInt(octets[3]);
 
             for (int i = 0; i < amountOfSubnet; i++) {
-                int bits = (int) Math.ceil(Math.log(subnetHosts[i]) / Math.log(2));
+                int bits = (int) Math.ceil(Math.log(subnetHosts[i] + 2) / Math.log(2)); // Add 2 for network and broadcast addresses
                 int mask = 32 - bits;
 
                 int broadcastFourthOctet = fourthOctet + (int) Math.pow(2, bits) - 1;
-                int endRangeFourthOctet = fourthOctet + (int) Math.pow(2, bits) - 2;
+                int endRangeFourthOctet = broadcastFourthOctet - 1;
 
                 if (broadcastFourthOctet > 255) {
                     thirdOctet++;
@@ -63,12 +62,12 @@ Under the constructor you find a three functions.
                     endRangeFourthOctet -= 256;
                 }
 
-                bufferedWriter.write(STR."LAN \{i + 1}: \{subnetHosts[i]} hostów\n");
-                bufferedWriter.write(STR."Adres sieci: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet}/\{mask}\n");
-                bufferedWriter.write(STR."Zakres adresów: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet + 1} - \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{endRangeFourthOctet}\n");
-                bufferedWriter.write(STR."Adres rozgłoszeniowy: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{broadcastFourthOctet}\n\n");
+                bufferedWriter.write(STR."LAN \{i + 1}: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet} -> dla \{subnetHosts[i]} hostów\n");
+                bufferedWriter.write(STR."Fisrt useful address \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet + 1}\n");
+                bufferedWriter.write(STR."Last useful address: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{endRangeFourthOctet}\n");
+                bufferedWriter.write(STR."Broadcast address: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{broadcastFourthOctet}\n\n");
 
-                fourthOctet += (int) Math.pow(2, bits);
+                fourthOctet += Math.pow(2, bits);
                 if (fourthOctet > 255) {
                     thirdOctet++;
                     fourthOctet -= 256;
@@ -84,7 +83,7 @@ A lot of bufferedWriter but I don't have any idea to change that so this must st
 
 - Second -> sortArrayDescending -> for invalid input. Because in VLSM method when we designate subnets, we must do it in descending way.
 ``` java
-public void sortArrayDescending(int[] sortedArray) {
+    public void sortArrayDescending(int[] sortedArray) {
         for (int i = 0; i < sortedArray.length - 1; i++) {
             for (int j = 0; j < sortedArray.length - i - 1; j++) {
                 if (sortedArray[j] < sortedArray[j + 1]) {
@@ -100,13 +99,9 @@ Simply sort function. We iterate over the array and on every itteration, we iter
 
 - Third -> readFile -> there the netMask file is read and written appropriately in parts into lists.
 ``` java
-    public static void readFile() throws Exception {
-        File file = new File("C:/Users/doria/IdeaProjects/calculatorIP/netMask.txt");
+    public void readFile() throws Exception {
+        File file = new File("netMask.txt");
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-
-        List<String> prefixes = new ArrayList<>();
-        List<String> masks = new ArrayList<>();
-        List<String> capacities = new ArrayList<>();
 
         String line;
         while ((line = bufferedReader.readLine()) != null) {
@@ -117,13 +112,14 @@ Simply sort function. We iterate over the array and on every itteration, we iter
                 capacities.add(parts[2]);
             }
         }
+        bufferedReader.close();
     }
 ```
 In this function I use list, because this is easier to change ealier. You can put diffrent file and this should be work fine.
 
 - Fourth (I almost forgot) -> checkClass -> checking class of IP.
 ``` java
-public void checkClass(int firstOctet) {
+    public void checkClass(int firstOctet) {
         if (firstOctet >= 1 && firstOctet <= 126) {
             System.out.println("Class A");
         } else if (firstOctet >= 128 && firstOctet <= 191) {
@@ -137,6 +133,112 @@ public void checkClass(int firstOctet) {
         }
     }
 ```
+
+- Five -> findClosestCapacity -> finds closest capacity for LAN
+``` java
+    private int findClosestCapacity(int subnetHosts) {
+        int closestIndex = -1;
+        int minDifference = Integer.MAX_VALUE;
+
+        for (int i = 0; i < capacities.size(); i++) {
+            int capacity = Integer.parseInt(capacities.get(i));
+            int difference = Math.abs(capacity - subnetHosts);
+
+            if (difference < minDifference) {
+                minDifference = difference;
+                closestIndex = i;
+            }
+        }
+        return closestIndex;
+    }
+```
+
+### File example for VLMS
+``` txt
+LAN 1: 172.16.0.0 -> for 100 Hosts
+First useful address 172.16.0.1
+Last useful address: 172.16.0.126
+Broadcast address: 172.16.0.127
+
+LAN 2: 172.16.0.128 -> for 90 Hosts
+First useful address 172.16.0.129
+Last useful address: 172.16.0.254
+Broadcast address: 172.16.0.255
+
+LAN 3: 172.16.1.0 -> for 56 Hosts
+First useful address 172.16.1.1
+Last useful address: 172.16.1.62
+Broadcast address: 172.16.1.63
+
+LAN 4: 172.16.1.64 -> for 12 Hosts
+First useful address 172.16.1.65
+Last useful address: 172.16.1.78
+Broadcast address: 172.16.1.79
+
+LAN 5: 172.16.1.80 -> for 12 Hosts
+First useful address 172.16.1.81
+Last useful address: 172.16.1.94
+Broadcast address: 172.16.1.95
+
+LAN 6: 172.16.1.96 -> for 4 Hosts
+First useful address 172.16.1.97
+Last useful address: 172.16.1.102
+Broadcast address: 172.16.1.103
+
+LAN 7: 172.16.1.104 -> for 2 Hosts
+First useful address 172.16.1.105
+Last useful address: 172.16.1.106
+Broadcast address: 172.16.1.107
+
+LAN 8: 172.16.1.108 -> for 2 Hosts
+First useful address 172.16.1.109
+Last useful address: 172.16.1.110
+Broadcast address: 172.16.1.111
+```
+
+### File example for Static
+``` txt
+LAN 1: 172.16.0.0 
+First useful address: 172.16.0.1 
+Last useful address: 172.16.31.254 
+Broadcast address: 172.16.31.255 
+
+LAN 2: 172.16.32.0 
+First useful address: 172.16.32.1 
+Last useful address: 172.16.63.254 
+Broadcast address: 172.16.63.255 
+
+LAN 3: 172.16.64.0 
+First useful address: 172.16.64.1 
+Last useful address: 172.16.95.254 
+Broadcast address: 172.16.95.255 
+
+LAN 4: 172.16.96.0 
+First useful address: 172.16.96.1 
+Last useful address: 172.16.127.254 
+Broadcast address: 172.16.127.255 
+
+LAN 5: 172.16.128.0 
+First useful address: 172.16.128.1 
+Last useful address: 172.16.159.254 
+Broadcast address: 172.16.159.255 
+
+LAN 6: 172.16.160.0 
+First useful address: 172.16.160.1 
+Last useful address: 172.16.191.254 
+Broadcast address: 172.16.191.255 
+
+LAN 7: 172.16.192.0 
+First useful address: 172.16.192.1 
+Last useful address: 172.16.223.254 
+Broadcast address: 172.16.223.255 
+
+LAN 8: 172.16.224.0 
+First useful address: 172.16.224.1 
+Last useful address: 172.16.255.254 
+Broadcast address: 172.16.255.255 
+```
+
 As you can see, I have range of diffrent classes and I check it with if statements.
 
 For now. That's all
