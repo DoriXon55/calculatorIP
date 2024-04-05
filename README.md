@@ -36,34 +36,45 @@ This part of code handle the VLSM divine method. You can find there constructor 
 Under the constructor you find a three functions. 
 - First -> calculateVSLM -> there are all of calculating process and file overwriting.
 ``` java
-public void calculateVSLM(String[] octets, int[] subnetHosts, int amountOfSubnet, String userMask) {
+ public void calculateVSLM(String[] octets, int[] subnetHosts, int amountOfSubnet) {
         try {
+            cleanFile();
             FileWriter fileWriter = new FileWriter("SubnetVLMS.txt");
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
-            int range = 256 / amountOfSubnet;
             int firstOctet = Integer.parseInt(octets[0]);
             int secondOctet = Integer.parseInt(octets[1]);
-            int thirdOctet = 0, fourthOctet = 0;
+            int thirdOctet = Integer.parseInt(octets[2]);
+            int fourthOctet = Integer.parseInt(octets[3]);
 
             for (int i = 0; i < amountOfSubnet; i++) {
-                int tempCheck2 = Integer.parseInt(octets[2]);
-                int tempCheck3 = Integer.parseInt(octets[3]);
-                if (tempCheck3 > 255) {
-                    octets[2] = Integer.toString(tempCheck2 + 1);
-                    octets[3] = "0";
+                int bits = (int) Math.ceil(Math.log(subnetHosts[i]) / Math.log(2));
+                int mask = 32 - bits;
+
+                int broadcastFourthOctet = fourthOctet + (int) Math.pow(2, bits) - 1;
+                int endRangeFourthOctet = fourthOctet + (int) Math.pow(2, bits) - 2;
+
+                if (broadcastFourthOctet > 255) {
+                    thirdOctet++;
+                    broadcastFourthOctet -= 256;
                 }
 
+                if (endRangeFourthOctet > 255) {
+                    thirdOctet++;
+                    endRangeFourthOctet -= 256;
+                }
 
-                bufferedWriter.write(STR."Subnet \{i + 1}: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet} \n");
-                bufferedWriter.write(STR."First useful address: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet} \n");
-                bufferedWriter.write(STR."Last useful address: \{firstOctet}.\{secondOctet}.\{thirdOctet + range - 1}.\{fourthOctet} \n");
-                bufferedWriter.write(STR."Broadcast address: \{firstOctet}.\{secondOctet}.\{thirdOctet + range - 1}.\{fourthOctet} \n");
-                bufferedWriter.write(STR."Net mask: \{firstOctet}.\{secondOctet}.\{thirdOctet + range - 1}.\{fourthOctet} \n");
-                bufferedWriter.write("\n");
+                bufferedWriter.write(STR."LAN \{i + 1}: \{subnetHosts[i]} hostów\n");
+                bufferedWriter.write(STR."Adres sieci: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet}/\{mask}\n");
+                bufferedWriter.write(STR."Zakres adresów: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet + 1} - \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{endRangeFourthOctet}\n");
+                bufferedWriter.write(STR."Adres rozgłoszeniowy: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{broadcastFourthOctet}\n\n");
+
+                fourthOctet += (int) Math.pow(2, bits);
+                if (fourthOctet > 255) {
+                    thirdOctet++;
+                    fourthOctet -= 256;
+                }
             }
-
-
+            bufferedWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
