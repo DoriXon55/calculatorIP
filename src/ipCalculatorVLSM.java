@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ipCalculatorVLSM {
-    private List<String> prefixes = new ArrayList<>();
-    private List<String> masks = new ArrayList<>();
-    private List<String> capacities = new ArrayList<>();
+    private final List<String> prefixes = new ArrayList<>();
+    private final List<String> masks = new ArrayList<>();
+    private final List<String> capacities = new ArrayList<>();
 
     public ipCalculatorVLSM(String IP, int amountOfSubnet) {
 
@@ -62,10 +62,10 @@ public class ipCalculatorVLSM {
                     endRangeFourthOctet -= 256;
                 }
 
-                bufferedWriter.write("Podsieć " + (i + 1) + ": " + firstOctet + "." + secondOctet + "." + thirdOctet + "." + fourthOctet + " -> dla " + subnetHosts[i] + " hostów\n");
-                bufferedWriter.write("Pierwszy użyteczny adres: " + firstOctet + "." + secondOctet + "." + thirdOctet + "." + (fourthOctet + 1) + "\n");
-                bufferedWriter.write("Ostatni użyteczny adres: " + firstOctet + "." + secondOctet + "." + thirdOctet + "." + endRangeFourthOctet + "\n");
-                bufferedWriter.write("Adres rozgłoszeniowy: " + firstOctet + "." + secondOctet + "." + thirdOctet + "." + broadcastFourthOctet + "\n\n");
+                bufferedWriter.write(STR."LAN \{i + 1}: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet} -> dla \{subnetHosts[i]} hostów\n");
+                bufferedWriter.write(STR."Fisrt useful address \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet + 1}\n");
+                bufferedWriter.write(STR."Last useful address: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{endRangeFourthOctet}\n");
+                bufferedWriter.write(STR."Broadcast address: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{broadcastFourthOctet}\n\n");
 
                 fourthOctet += Math.pow(2, bits);
                 if (fourthOctet > 255) {
@@ -78,8 +78,6 @@ public class ipCalculatorVLSM {
             e.printStackTrace();
         }
     }
-
-
 
 
     public void sortArrayDescending(int[] sortedArray) {
