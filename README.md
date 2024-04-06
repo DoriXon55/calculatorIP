@@ -14,7 +14,7 @@ When you run the code, you must give to the terminal information about network y
 this divines. Your result will be save in separate file, so be careful and don't rage when you will see only
 information about IP class in terminal. To change file you must change fileName in this line: 
 ``` java
-FileWriter fileWriter = new FileWriter("PodziałSieci.txt");
+FileWriter fileWriter = new FileWriter("Subnet.txt");
 ```
 You can change "PodzialSieci.txt" for everything you want and can.
 
@@ -35,7 +35,7 @@ This part of code handle the VLSM divine method. You can find there constructor 
 Under the constructor you find a three functions. 
 - First -> calculateVSLM -> there are all of calculating process and file overwriting.
 ``` java
-    public void calculateVSLM(String[] octets, int[] subnetHosts, int amountOfSubnet) {
+ public void calculateVSLM(String[] octets, int[] subnetHosts, int amountOfSubnet) {
         try {
             cleanFile();
             FileWriter fileWriter = new FileWriter("SubnetVLMS.txt");
@@ -62,8 +62,8 @@ Under the constructor you find a three functions.
                     endRangeFourthOctet -= 256;
                 }
 
-                bufferedWriter.write(STR."LAN \{i + 1}: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet} -> dla \{subnetHosts[i]} hostów\n");
-                bufferedWriter.write(STR."Fisrt useful address \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet + 1}\n");
+                bufferedWriter.write(STR."LAN \{i + 1}: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet} -> for \{subnetHosts[i]} Hosts\n");
+                bufferedWriter.write(STR."First useful address \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{fourthOctet + 1}\n");
                 bufferedWriter.write(STR."Last useful address: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{endRangeFourthOctet}\n");
                 bufferedWriter.write(STR."Broadcast address: \{firstOctet}.\{secondOctet}.\{thirdOctet}.\{broadcastFourthOctet}\n\n");
 
