@@ -3,8 +3,6 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-
-
         Scanner scanner = new Scanner(System.in);
         System.out.println("Give IP to divine: ");
         String userNet = scanner.nextLine();
@@ -30,12 +28,5 @@ public class Main {
                 System.out.println("Choose division method: \n 1. VLSM \n 2. Static");
                 break;
         }
-        clearTerminal();
     }
-
-    public static void clearTerminal() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }
-
 }
