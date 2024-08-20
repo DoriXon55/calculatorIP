@@ -230,7 +230,9 @@ Broadcast address: 172.16.255.255
 
 For now. That's all
   
-
+!!! Update.
+Unfortunetely I tested easy examples of IP addressing. In other some "troublesome" examples my program doesn't work well, I mean it just doesn't work properly and returns unacceptable results.
+This is because I didn't want to bother with moving the bits, everything is done quite permanently here. This is my mistake caused by being in a hurry and not understanding the topic at that moment.
 
 
 @Dorixon55
