@@ -1,0 +1,27 @@
+Adres IP: 170.16.0.10
+Liczba podsieci: 3
+
+Podsieć 1:
+  Wymagana liczba hostów: 3
+  Adres sieci: 170.16.0.10/29
+  Pierwszy użyteczny: 170.16.0.11
+  Ostatni użyteczny: 170.16.0.16
+  Broadcast: 170.16.0.17
+  Dostępne hosty: 6
+
+Podsieć 2:
+  Wymagana liczba hostów: 3
+  Adres sieci: 170.16.0.18/29
+  Pierwszy użyteczny: 170.16.0.19
+  Ostatni użyteczny: 170.16.0.24
+  Broadcast: 170.16.0.25
+  Dostępne hosty: 6
+
+Podsieć 3:
+  Wymagana liczba hostów: 3
+  Adres sieci: 170.16.0.26/29
+  Pierwszy użyteczny: 170.16.0.27
+  Ostatni użyteczny: 170.16.0.32
+  Broadcast: 170.16.0.33
+  Dostępne hosty: 6
+
